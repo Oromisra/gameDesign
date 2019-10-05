@@ -7,10 +7,9 @@ public class LetterManagerScript : MonoBehaviour
     public static char[] letterBase = { 'k', 'a', 'r', 'o' };
     public List<LetterDisplay> letterList;
     public LetterSpawner LetterSpawner;
+    public int frequency = 100;
+    private int time = 0;
     private void Start() {
-        LetterDisplay newLetter = LetterSpawner.spawnLetter();
-        newLetter.setLetter(generateNextLetter());
-        letterList.Add(newLetter);
     }
 
     public static char generateNextLetter() {
@@ -21,12 +20,19 @@ public class LetterManagerScript : MonoBehaviour
 
     public void typeLetter(char letter) {
         if (this.letterList[0].getLetter() == letter) {
-            Destroy(this.letterList[0]);
+            Destroy(this.letterList[0].gameObject);
+            this.letterList.RemoveAt(0);
         } else {
             // Add stress
         }
     }
 
     private void Update() {
+        time++;
+        if (time % frequency == 0) {
+            LetterDisplay newLetter = LetterSpawner.spawnLetter();
+            newLetter.setLetter(generateNextLetter());
+            letterList.Add(newLetter);
+        }
     }
 }

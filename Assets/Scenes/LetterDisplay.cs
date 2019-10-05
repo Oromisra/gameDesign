@@ -7,7 +7,7 @@ public class LetterDisplay : MonoBehaviour
 {
     public Text text;
     private char letter;
-    public float fallSpeed = 10f;
+    public float fallSpeed = 30f;
 
     public void setLetter(char letter) {
         this.letter = letter;

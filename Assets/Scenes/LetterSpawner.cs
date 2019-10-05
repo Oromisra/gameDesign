@@ -7,7 +7,7 @@ public class LetterSpawner : MonoBehaviour
     public GameObject letterPreFab;
     public Transform letterCanvas;
     public LetterDisplay spawnLetter() {
-        Vector3 randomPosition = new Vector3(Random.Range(-5f, 5f), 7f);
+        Vector3 randomPosition = new Vector3(Random.Range(-50f, 50f), 35f);
 
         Debug.Log(randomPosition);
 
