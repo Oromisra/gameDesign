@@ -9,6 +9,9 @@ public class LetterManagerScript : MonoBehaviour
     public LetterSpawner LetterSpawner;
     public int frequency = 100;
     private int time = 0;
+    public int stress = 0;
+    public StressBarScript stressBar;
+
     private void Start() {
     }
 
@@ -19,20 +22,37 @@ public class LetterManagerScript : MonoBehaviour
     }
 
     public void typeLetter(char letter) {
-        if (this.letterList[0].getLetter() == letter) {
-            Destroy(this.letterList[0].gameObject);
-            this.letterList.RemoveAt(0);
-        } else {
-            // Add stress
+        if (this.letterList.Count > 0) {
+            if (this.letterList[0].getLetter() == letter) {
+                Destroy(this.letterList[0].gameObject);
+                this.letterList.RemoveAt(0);
+            } else {
+                stressBar.addStress(0.02f);
+            }
+        }
+    }
+
+    private void checkForLetterLower() {
+        foreach(LetterDisplay letter in letterList) {
+            if (letter.needsToDestroy()) {
+                Destroy(letter.gameObject);
+                this.letterList.Remove(letter);
+                stressBar.addStress(0.05f);
+                return;
+            }
         }
     }
 
     private void Update() {
-        time++;
-        if (time % frequency == 0) {
-            LetterDisplay newLetter = LetterSpawner.spawnLetter();
-            newLetter.setLetter(generateNextLetter());
-            letterList.Add(newLetter);
+        if (!stressBar.isKaroshi()) {
+
+            checkForLetterLower();
+            time++;
+            if (time % frequency == 0) {
+                LetterDisplay newLetter = LetterSpawner.spawnLetter();
+                newLetter.setLetter(generateNextLetter());
+                letterList.Add(newLetter);
+            }
         }
     }
 }
