@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class LetterManagerScript : MonoBehaviour
 {
-    public static char[] letterBase = { 'k', 'a', 'r', 'o' };
+    public static char[] letterBase = { 'k', 'a', 'r', 'o', 's', 'h', 'i' };
     public List<LetterDisplay> letterList;
     public LetterSpawner LetterSpawner;
     public int frequency = 100;
     private int time = 0;
-    public int stress = 0;
+    public float stress = 0;
     public StressBarScript stressBar;
 
     private void Start() {
@@ -45,12 +45,14 @@ public class LetterManagerScript : MonoBehaviour
 
     private void Update() {
         if (!stressBar.isKaroshi()) {
-
+            stress = stressBar.getStress();
             checkForLetterLower();
             time++;
             if (time % frequency == 0) {
                 LetterDisplay newLetter = LetterSpawner.spawnLetter();
                 newLetter.setLetter(generateNextLetter());
+                newLetter.setSpeed(stress);
+                newLetter.setStressReference(stressBar);
                 letterList.Add(newLetter);
             }
         }
