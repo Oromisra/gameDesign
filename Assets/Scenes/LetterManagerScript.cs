@@ -26,28 +26,32 @@ public class LetterManagerScript : MonoBehaviour
     }
 
     public void typeLetter(char letter) {
-        if (this.letterList.Count > 0) {
+            if (this.letterList.Count > 0) {
             if (this.letterList[0].getLetter() == letter) {
                 Destroy(this.letterList[0].gameObject);
                 this.letterList.RemoveAt(0);
-                score.scoreValue += 10;
+                if (!stressBar.isKaroshi()) {
+                    score.scoreValue += 10;
+                }
             } else {
                 stressBar.addStress(0.02f);
-                score.scoreValue -= 2;
+                if (!stressBar.isKaroshi()) {
+                    score.scoreValue -= 2;
+                }
             }
         }
     }
 
     private void checkForLetterLower() {
-        foreach(LetterDisplay letter in letterList) {
-            if (letter.needsToDestroy()) {
-                Destroy(letter.gameObject);
-                this.letterList.Remove(letter);
-                stressBar.addStress(0.05f);
-                score.scoreValue -= 5;
-                return;
+            foreach (LetterDisplay letter in letterList) {
+                if (letter.needsToDestroy()) {
+                    Destroy(letter.gameObject);
+                    this.letterList.Remove(letter);
+                    stressBar.addStress(0.05f);
+                    score.scoreValue -= 5;
+                    return;
+                }
             }
-        }
     }
 
     private void Update() {
