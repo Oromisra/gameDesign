@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LetterManagerScript : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class LetterManagerScript : MonoBehaviour
     public float stress = 0;
     public StressBarScript stressBar;
     public ScoreScript score;
+    public Text endText;
     private void Start() {
     }
 
@@ -48,6 +50,8 @@ public class LetterManagerScript : MonoBehaviour
 
     private void Update() {
         if (!stressBar.isKaroshi()) {
+            endText.gameObject.SetActive(false);
+
             stress = stressBar.getStress();
 
             checkForLetterLower();
@@ -59,6 +63,8 @@ public class LetterManagerScript : MonoBehaviour
                 newLetter.setStressReference(stressBar);
                 letterList.Add(newLetter);
             }
+        } else {
+            endText.gameObject.SetActive(true);
         }
     }
 }
