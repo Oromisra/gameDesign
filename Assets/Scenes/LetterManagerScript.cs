@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LetterManagerScript : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class LetterManagerScript : MonoBehaviour
     public StressBarScript stressBar;
     public ScoreScript score;
     public Text endText;
+    private int endTime = 0;
     private void Start() {
     }
 
@@ -64,6 +66,10 @@ public class LetterManagerScript : MonoBehaviour
                 letterList.Add(newLetter);
             }
         } else {
+            endTime++;
+            if (endTime >= 500) {
+                SceneManager.LoadScene("main_menu");
+            }
             endText.gameObject.SetActive(true);
         }
     }
